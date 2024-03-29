@@ -12,6 +12,7 @@ document.getElementById("addTodo").addEventListener("click", handleInput);
 
 document.getElementById("todoInput").addEventListener("keypress", (e) => {
   if (e.key == "Enter") {
+    e.preventDefault();
     handleInput();
   }
 });
@@ -19,7 +20,7 @@ document.getElementById("todoInput").addEventListener("keypress", (e) => {
 const addTodo = (todo) => {
   let todoList = document.getElementById("todoList");
 
-  let [value, isChecked] = todo;
+  const [value, isChecked] = todo;
   let item = document.createElement("li");
   item.innerText = value;
   item.classList.add("list-group-item");
@@ -36,6 +37,7 @@ const createCheckBox = (isChecked) => {
   let checkbox = document.createElement("input");
   checkbox.type = "checkbox";
   checkbox.checked = isChecked;
+
   checkbox.addEventListener("click", () => {
     storeTodos();
   });
@@ -51,7 +53,7 @@ const createEditButton = (...elements) => {
   editButton.classList.add("btn", "btn-edit", "btn-sm", "float-end");
 
   editButton.addEventListener("click", () => {
-    const input = document.createElement("input");
+    let input = document.createElement("input");
     input.type = "text";
     input.value = item.innerText.replace("Remove", "").trim();
     input.classList.add("form-control");
@@ -107,7 +109,7 @@ const storeTodos = () => {
 };
 
 const loadTodos = () => {
-  let todos = JSON.parse(localStorage.getItem("todos"));
+  const todos = JSON.parse(localStorage.getItem("todos"));
 
   if (todos) {
     todos.forEach((todo) => {
