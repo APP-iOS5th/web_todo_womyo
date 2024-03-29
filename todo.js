@@ -2,7 +2,7 @@ const handleInput = () => {
   let value = document.getElementById("todoInput").value;
 
   if (value) {
-    addTodo(value);
+    addTodo([value, false]);
     document.getElementById("todoInput").value = "";
     storeTodos();
   }
@@ -19,9 +19,17 @@ document.getElementById("todoInput").addEventListener("keypress", (e) => {
 const addTodo = (value) => {
   let todoList = document.getElementById("todoList");
 
+  let [text, checked] = value;
   let item = document.createElement("li");
-  item.innerText = value.trim();
+  item.innerText = text;
   item.classList.add("list-group-item");
+
+  let checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  checkbox.checked = checked;
+  checkbox.addEventListener("click", () => {
+    storeTodos();
+  });
 
   let editButton = document.createElement("button");
   editButton.innerHTML = '<i class="bi bi-pencil-square"></i>';
@@ -36,8 +44,10 @@ const addTodo = (value) => {
     input.addEventListener("keypress", (e) => {
       if (e.key === "Enter") {
         item.innerText = input.value.trim();
+        item.insertBefore(checkbox, item.firstChild);
         item.appendChild(removeButton);
         item.appendChild(editButton);
+        storeTodos();
       }
     });
 
@@ -54,6 +64,7 @@ const addTodo = (value) => {
     storeTodos();
   });
 
+  item.insertBefore(checkbox, item.firstChild);
   item.appendChild(removeButton);
   item.appendChild(editButton);
 
@@ -65,7 +76,10 @@ const storeTodos = () => {
   let todoList = document.getElementById("todoList");
 
   for (let i = 0; i < todoList.children.length; i++) {
-    todos.push(todoList.children[i].innerText.replace("Remove", "").trim());
+    todos.push([
+      todoList.children[i].innerText.replace("Remove", "").trim(),
+      todoList.children[i].querySelector("input[type='checkbox']").checked,
+    ]);
   }
 
   localStorage.setItem("todos", JSON.stringify(todos));
