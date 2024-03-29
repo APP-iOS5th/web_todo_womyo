@@ -20,12 +20,30 @@ const addTodo = (value) => {
   let todoList = document.getElementById("todoList");
 
   let item = document.createElement("li");
-  item.innerText = value;
+  item.innerText = value.trim();
   item.classList.add("list-group-item");
 
   let editButton = document.createElement("button");
   editButton.innerHTML = '<i class="bi bi-pencil-square"></i>';
   editButton.classList.add("btn", "btn-edit", "btn-sm", "float-end");
+
+  editButton.addEventListener("click", () => {
+    const input = document.createElement("input");
+    input.type = "text";
+    input.value = item.innerText.replace("Remove", "").trim();
+    input.classList.add("form-control");
+
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        item.innerText = input.value.trim();
+        item.appendChild(removeButton);
+        item.appendChild(editButton);
+      }
+    });
+
+    item.innerHTML = "";
+    item.appendChild(input);
+  });
 
   let removeButton = document.createElement("button");
   removeButton.innerText = "Remove";
