@@ -34,7 +34,7 @@ const storeTodos = () => {
   let todoList = document.getElementById("todoList");
 
   for (let i = 0; i < todoList.children.length; i++) {
-    todos.push(todoList.children[i].innerText.trim());
+    todos.push(todoList.children[i].innerText.replace("Remove", "").trim());
   }
 
   localStorage.setItem("todos", JSON.stringify(todos));
