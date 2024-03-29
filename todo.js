@@ -29,3 +29,13 @@ const storeTodos = () => {
 
   localStorage.setItem("todos", JSON.stringify(todos));
 };
+
+const loadTodos = () => {
+  let todos = JSON.parse(localStorage.getItem("todos"));
+
+  if (todos) {
+    todos.forEach((todo) => {
+      addTodo(todo);
+    });
+  }
+};
