@@ -16,20 +16,35 @@ document.getElementById("todoInput").addEventListener("keypress", (e) => {
   }
 });
 
-const addTodo = (value) => {
+const addTodo = (todo) => {
   let todoList = document.getElementById("todoList");
 
-  let [text, checked] = value;
+  let [value, isChecked] = todo;
   let item = document.createElement("li");
-  item.innerText = text;
+  item.innerText = value;
   item.classList.add("list-group-item");
 
+  let checkbox = createCheckBox(isChecked);
+  let removeButton = createRemoveButton(item);
+  let editButton = createEditButton(item, checkbox, removeButton);
+
+  appendElementsInLi(item, checkbox, removeButton, editButton);
+  todoList.appendChild(item);
+};
+
+const createCheckBox = (isChecked) => {
   let checkbox = document.createElement("input");
   checkbox.type = "checkbox";
-  checkbox.checked = checked;
+  checkbox.checked = isChecked;
   checkbox.addEventListener("click", () => {
     storeTodos();
   });
+
+  return checkbox;
+};
+
+const createEditButton = (...elements) => {
+  const [item, checkbox, removeButton] = elements;
 
   let editButton = document.createElement("button");
   editButton.innerHTML = '<i class="bi bi-pencil-square"></i>';
@@ -44,9 +59,7 @@ const addTodo = (value) => {
     input.addEventListener("keypress", (e) => {
       if (e.key === "Enter") {
         item.innerText = input.value.trim();
-        item.insertBefore(checkbox, item.firstChild);
-        item.appendChild(removeButton);
-        item.appendChild(editButton);
+        appendElementsInLi(item, checkbox, removeButton, editButton);
         storeTodos();
       }
     });
@@ -55,6 +68,10 @@ const addTodo = (value) => {
     item.appendChild(input);
   });
 
+  return editButton;
+};
+
+const createRemoveButton = (item) => {
   let removeButton = document.createElement("button");
   removeButton.innerText = "Remove";
   removeButton.classList.add("btn", "btn-danger", "btn-sm", "float-end");
@@ -64,11 +81,15 @@ const addTodo = (value) => {
     storeTodos();
   });
 
+  return removeButton;
+};
+
+const appendElementsInLi = (...elements) => {
+  const [item, checkbox, removeButton, editButton] = elements;
+
   item.insertBefore(checkbox, item.firstChild);
   item.appendChild(removeButton);
   item.appendChild(editButton);
-
-  todoList.appendChild(item);
 };
 
 const storeTodos = () => {
