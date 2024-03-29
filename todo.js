@@ -11,7 +11,7 @@ const handleInput = () => {
 document.getElementById("addTodo").addEventListener("click", handleInput);
 
 document.getElementById("todoInput").addEventListener("keypress", (e) => {
-  if ((e.key = "Enter")) {
+  if (e.key == "Enter") {
     handleInput();
   }
 });
@@ -23,6 +23,10 @@ const addTodo = (value) => {
   item.innerText = value;
   item.classList.add("list-group-item");
 
+  let editButton = document.createElement("button");
+  editButton.innerHTML = '<i class="bi bi-pencil-square"></i>';
+  editButton.classList.add("btn", "btn-edit", "btn-sm", "float-end");
+
   let removeButton = document.createElement("button");
   removeButton.innerText = "Remove";
   removeButton.classList.add("btn", "btn-danger", "btn-sm", "float-end");
@@ -33,6 +37,7 @@ const addTodo = (value) => {
   });
 
   item.appendChild(removeButton);
+  item.appendChild(editButton);
 
   todoList.appendChild(item);
 };
