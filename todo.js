@@ -1,3 +1,13 @@
+document.getElementById("addTodo").addEventListener("click", () => {
+  let value = document.getElementById("todoInput").value;
+
+  if (value) {
+    addTodo(value);
+    document.getElementById("todoInput").value = "";
+    storeTodos();
+  }
+});
+
 const addTodo = (value) => {
   let todoList = document.getElementById("todoList");
 
