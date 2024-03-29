@@ -5,6 +5,17 @@ const addTodo = (value) => {
   item.innerText = value;
   item.classList.add("list-group-item");
 
+  let removeButton = document.createElement("button");
+  removeButton.innerText = "Remove";
+  removeButton.classList.add("btn", "btn-danger", "btn-sm", "float-end");
+
+  removeButton.addEventListener("click", () => {
+    item.parentNode.removeChild(item);
+    storeTodos();
+  });
+
+  item.appendChild(removeButton);
+
   todoList.appendChild(item);
 };
 
