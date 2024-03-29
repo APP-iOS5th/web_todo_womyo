@@ -1,10 +1,18 @@
-document.getElementById("addTodo").addEventListener("click", () => {
+const handleInput = () => {
   let value = document.getElementById("todoInput").value;
 
   if (value) {
     addTodo(value);
     document.getElementById("todoInput").value = "";
     storeTodos();
+  }
+};
+
+document.getElementById("addTodo").addEventListener("click", handleInput);
+
+document.getElementById("todoInput").addEventListener("keypress", (e) => {
+  if ((e.key = "Enter")) {
+    handleInput();
   }
 });
 
