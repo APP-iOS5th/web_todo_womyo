@@ -1,3 +1,13 @@
+const addTodo = (value) => {
+  let todoList = document.getElementById("todoList");
+
+  let item = document.createElement("li");
+  item.innerText = value;
+  item.classList.add("list-group-item");
+
+  todoList.appendChild(item);
+};
+
 const storeTodos = () => {
   let todos = [];
   let todoList = document.getElementById("todoList");
